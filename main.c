@@ -8,24 +8,34 @@
 #include "serial.h"
 #include "timer.h"
 
-uint8_t number = 0;
 
-void main(void) {
+
+
+
+int main(void) {
     uart_init();
     timer_init();
     LED_init();
+    uint8_t i = 0;
 
-    while (1)
-    {
-        if (TIFR0 & (1 << OCF0A)) // Here it checks if OCF0A flags then it will increase number by one.
-        {
-            TIFR0 |= (1 << OCF0A);
-            number++;
+    while (1) {     // Eternal while loop
+
+        while (i <= 255) {       //This while loop incremenst all the way to 255 and then breaks out of it,
+            OCR0A = i;          // inbetween those increments is a delay of 3 ms.
+            _delay_ms(3);
+            i++;
+            if (i == 255)
+                break;
         }
 
-        if (number >= 10) { // If the increase here goes all the way to ten then it will start from the beginning.
-            toggle_LED();
-            number = 0;
+        while (i >= 0) {        //This while loop decrements all the way from 255 to 0 and then breaks out of it,
+            OCR0A = i;          // inbetween those decrements is a delay of 3 ms.
+            _delay_ms(3);
+            i--;
+            if (i == 0)
+                break;
         }
+
     }
+    return 0;
 }

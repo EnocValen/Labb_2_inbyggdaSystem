@@ -3,10 +3,6 @@
 
 void LED_init() {
 
-	DDRB |= (1 << PB0);
+	DDRD |= (1 << 6); // This is because expansionport is 6
 }
 
-void toggle_LED() {
-	PORTB ^= (1 << PB0); // This is a oneliner that changes the condition of the LED 
-						//regardless if the LED is on or off
-}
